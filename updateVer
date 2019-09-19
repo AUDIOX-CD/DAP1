@@ -17,8 +17,8 @@ down_fir(){
   wget -O $down_fir  https://raw.githubusercontent.com/AUDIOX-CD/DAP1/master/dap1_fir.dat
   echo "\n \033[41;36;1m ------->down fir pass\033[0m"
 
-  if [ ! -f "$down_fir" ]; then #ÅĞ¶ÏÎÄ¼şÊÇ·ñ´æÔÚ
-    echo "\n \033[41;36;1m ------->$down_fir down fail \033[0m"  #·ñ
+  if [ ! -f "$down_fir" ]; then #åˆ¤æ–­æ–‡ä»¶æ˜¯å¦å­˜åœ¨
+    echo "\n \033[41;36;1m ------->$down_fir down fail \033[0m"  #å¦
     return 0
   else
     echo "\n \033[41;36;1m------->$down_fir down susscess \033[0m"
@@ -33,26 +33,26 @@ down_fir(){
 #-------------------------------------------------------------------------------------------------------------------
 check_new_ver(){
   ################################################################################################################
-  if [ ! -f "$old_File" ]; then #ÅĞ¶ÏÎÄ¼şÊÇ·ñ´æÔÚ
-    echo "\n \033[41;36;1m ------->$old_File not exist \033[0m"  #·ñ
-    wget -O $new_File https://gitee.com/audiox/dap1/raw/master/readme.txt
+  if [ ! -f "$old_File" ]; then #åˆ¤æ–­æ–‡ä»¶æ˜¯å¦å­˜åœ¨
+    echo "\n \033[41;36;1m ------->$old_File not exist \033[0m"  #å¦
+    wget -O $new_File https://gitee.com/audiox/dap1/raw/master/updateVer
     down_fir
     return 0
   else
     echo "\n \033[41;36;1m------->$old_File is exist \033[0m"
   fi
   ##############################################################################################################
-  #´æÔÚ,ÏÂÔØ²¢±È½Ï
-  wget -O $new_File https://gitee.com/audiox/dap1/raw/master/readme.txt
+  #å­˜åœ¨,ä¸‹è½½å¹¶æ¯”è¾ƒ
+  wget -O $new_File https://gitee.com/audiox/dap1/raw/master/updateVer
 
 
-  if [ ! -f "$new_File" ]; then #ÅĞ¶ÏÎÄ¼şÊÇ·ñ´æÔÚ
-    echo "\n \033[41;36;1m------->$new_File down fail \033[0m"  #Ã»ÓĞÏÂÔØ³É¹¦£¬ÍË³ö
+  if [ ! -f "$new_File" ]; then #åˆ¤æ–­æ–‡ä»¶æ˜¯å¦å­˜åœ¨
+    echo "\n \033[41;36;1m------->$new_File down fail \033[0m"  #æ²¡æœ‰ä¸‹è½½æˆåŠŸï¼Œé€€å‡º
     return 0
   else 
     echo "\n \033[41;36;1m------->$new_File down success \033[0m" 
   fi
-#ÏÂÔØ³É¹¦²¢±È½Ï
+#ä¸‹è½½æˆåŠŸå¹¶æ¯”è¾ƒ
   ##############################################################################################################
   diff $new_File  $old_File >/dev/null
   if [ $? != 0 ]
@@ -83,7 +83,7 @@ main(){
     echo $count_s
     if [ $count_s -ge 5 ];then #>=
      count_s=0
-     echo "\n \033[41;36;1m ------->check New Ver? \033[0m"  #·ñ
+     echo "\n \033[41;36;1m ------->check New Ver? \033[0m"  #å¦
      check_new_ver
     fi
   done
