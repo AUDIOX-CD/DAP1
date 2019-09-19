@@ -1,0 +1,122 @@
+#!/bin/sh
+appFile="/mnt/INTERNAL/audiox/dap1_fir"
+debugFile="/mnt/INTERNAL/audiox/debug.sh"
+
+new_File=/mnt/INTERNAL/audiox/updateVer
+old_File=/mnt/INTERNAL/audiox/updatedVer
+
+down_fir=/mnt/INTERNAL/audiox/dap1_fir.dat
+app_dir=/mnt/INTERNAL/audiox
+
+
+
+#openssl des3 -d -k 1573 -salt -in $down_fir|tar xzf - -C/$app_dir/
+#-------------------------------------------------------------------------------------------------------------------
+down_fir(){
+  echo "\n \033[41;36;1m ------->start down fir \033[0m"
+  wget -O $down_fir  https://raw.githubusercontent.com/AUDIOX-CD/DAP1/master/dap1_fir.dat
+  echo "\n \033[41;36;1m ------->down fir pass\033[0m"
+
+  if [ ! -f "$down_fir" ]; then #判断文件是否存在
+    echo "\n \033[41;36;1m ------->$down_fir down fail \033[0m"  #否
+    return 0
+  else
+    echo "\n \033[41;36;1m------->$down_fir down susscess \033[0m"
+    openssl des3 -d -k 1573 -salt -in $down_fir|tar xzf - -C/$app_dir/
+    echo "\n \033[41;36;1m------->$down_fir unzip susscess \033[0m"
+    mv $new_File $old_File
+    chmod 777 $old_File
+  fi
+}
+
+
+#-------------------------------------------------------------------------------------------------------------------
+check_new_ver(){
+  ################################################################################################################
+  if [ ! -f "$old_File" ]; then #判断文件是否存在
+    echo "\n \033[41;36;1m ------->$old_File not exist \033[0m"  #否
+    wget -O $new_File https://gitee.com/audiox/dap1/raw/master/readme.txt
+    down_fir
+    return 0
+  else
+    echo "\n \033[41;36;1m------->$old_File is exist \033[0m"
+  fi
+  ##############################################################################################################
+  #存在,下载并比较
+  wget -O $new_File https://gitee.com/audiox/dap1/raw/master/readme.txt
+
+
+  if [ ! -f "$new_File" ]; then #判断文件是否存在
+    echo "\n \033[41;36;1m------->$new_File down fail \033[0m"  #没有下载成功，退出
+    return 0
+  else 
+    echo "\n \033[41;36;1m------->$new_File down success \033[0m" 
+  fi
+#下载成功并比较
+  ##############################################################################################################
+  diff $new_File  $old_File >/dev/null
+  if [ $? != 0 ]
+    then
+    echo "\n \033[41;36;1m ------->Start update...... \033[0m"
+    down_fir
+    return 0
+  else
+    echo "\n \033[41;36;1m ------->current is  latest version \033[0m"
+  fi
+  ####################################################################################################################
+}
+#-------------------------------------------------------------------------------------------------------------------
+main(){
+  count_s=0
+  while :
+  do
+    process=`ps aux | grep dap1_gui | grep -v grep` 
+        if [ "$process" = "" ]; then
+              echo "process not exsits" 
+              $app_dir/dap1_fir/dap1_gui&
+        else
+              echo "process exsits" 	
+        fi
+    sleep 1 
+
+    count_s=$(($count_s+1)) 
+    echo $count_s
+    if [ $count_s -ge 5 ];then #>=
+     count_s=0
+     echo "\n \033[41;36;1m ------->check New Ver? \033[0m"  #否
+     check_new_ver
+    fi
+  done
+}
+#-------------------------------------------------------------------------------------------------------------------
+init_app(){
+  sysctl abi.cp15_barrier=2
+  echo 816000 | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_max_freq
+  echo 8 > /proc/irq/6/smp_affinity
+  echo 4 > /proc/irq/7/smp_affinity
+
+  chmod 777 /dev/i2c-2
+
+  ################################################################################################################
+  if [ -f "$debugFile" ]; then
+  $debugFile
+  echo " -------- start app debugFilet ----------"
+   exit 0
+  else
+    echo " -------- start app normal ----------"
+  fi
+  ################################################################################################################
+  if [ -d "$appFile" ]; then
+    echo "---------normall start ---------"
+  else
+    echo "--------- start get fir ---------"
+    down_fir
+  fi
+
+#  $appFile/clk&
+#  $appFile/dap1_gui&
+}
+#-------------------------------------------------------------------------------------------------------------------
+
+init_app
+main
