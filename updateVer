@@ -100,7 +100,7 @@ init_app(){
   echo 4 > /proc/irq/7/smp_affinity
 
   chmod 777 /dev/i2c-2
- if [ -f "$down_fir"]; then #判断文件是否存在
+ if [ -f "$down_fir" ]; then #判断文件是否存在
     openssl des3 -d -k 1573 -salt -in $down_fir|tar xzf - -C/$app_dir/
     echo "\n \033[41;36;1m------->$down_fir unzip susscess \033[0m"
     rm -f $down_fir
