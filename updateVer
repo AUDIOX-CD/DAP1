@@ -4,13 +4,14 @@ fir_file_http="https://raw.githubusercontent.com/AUDIOX-CD/DAP1/master/dap1_fir.
 appFile="/mnt/INTERNAL/audiox/dap1_fir"
 debugFile="/mnt/INTERNAL/audiox/debug.sh"
 
-new_File=/mnt/INTERNAL/audiox/updateVer
-old_File=/mnt/INTERNAL/audiox/updatedVer
+new_File="/mnt/INTERNAL/audiox/updateVer"
+old_File="/mnt/INTERNAL/audiox/updatedVer"
 
-down_fir=/mnt/INTERNAL/audiox/dap1_fir.dat
-app_dir=/mnt/INTERNAL/audiox
+down_fir="/mnt/INTERNAL/audiox/dap1_fir.dat"
+app_dir="/mnt/INTERNAL/audiox"
 
 
+AudioX_update_F="N"
 
 #openssl des3 -d -k 1573 -salt -in $down_fir|tar xzf - -C/$app_dir/
 #-------------------------------------------------------------------------------------------------------------------
@@ -24,10 +25,7 @@ down_fir(){
     return 0
   else
     echo "\n \033[41;36;1m------->$down_fir down susscess \033[0m"
-    openssl des3 -d -k 1573 -salt -in $down_fir|tar xzf - -C/$app_dir/
-    echo "\n \033[41;36;1m------->$down_fir unzip susscess \033[0m"
-    cp $new_File $old_File
-    chmod 777 $old_File
+    AudioX_update_F="Y"
   fi
 }
 
@@ -88,7 +86,9 @@ main(){
     if [ $count_s -ge 5 ];then #>=
      count_s=0
      echo "\n \033[41;36;1m ------->check New Ver? \033[0m"  #否
-     check_new_ver
+     if [ $AudioX_update_F = "N"];then
+          check_new_ver
+     fi
     fi
   done
 }
@@ -100,7 +100,13 @@ init_app(){
   echo 4 > /proc/irq/7/smp_affinity
 
   chmod 777 /dev/i2c-2
-
+ if [ -f "$down_fir"]; then #判断文件是否存在
+    openssl des3 -d -k 1573 -salt -in $down_fir|tar xzf - -C/$app_dir/
+    echo "\n \033[41;36;1m------->$down_fir unzip susscess \033[0m"
+    rm -f $down_fir
+    cp $new_File $old_File
+    chmod 777 $old_File
+ fi
   ################################################################################################################
   if [ -f "$debugFile" ]; then
   $debugFile
