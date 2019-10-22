@@ -26,7 +26,7 @@ down_fir(){
     echo "\n \033[41;36;1m------->$down_fir down susscess \033[0m"
     openssl des3 -d -k 1573 -salt -in $down_fir|tar xzf - -C/$app_dir/
     echo "\n \033[41;36;1m------->$down_fir unzip susscess \033[0m"
-    mv $new_File $old_File
+    cp $new_File $old_File
     chmod 777 $old_File
   fi
 }
