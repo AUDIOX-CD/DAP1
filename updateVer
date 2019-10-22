@@ -1,6 +1,6 @@
 #!/bin/sh
 updatver_file_http="https://github.com/AUDIOX-CD/DAP1/blob/master/updateVer"
-fir_file_http="https://github.com/AUDIOX-CD/DAP1/blob/master/updateVer"
+fir_file_http="https://raw.githubusercontent.com/AUDIOX-CD/DAP1/master/dap1_fir.dat"
 appFile="/mnt/INTERNAL/audiox/dap1_fir"
 debugFile="/mnt/INTERNAL/audiox/debug.sh"
 
@@ -16,7 +16,7 @@ app_dir=/mnt/INTERNAL/audiox
 #-------------------------------------------------------------------------------------------------------------------
 down_fir(){
   echo "\n \033[41;36;1m ------->start down fir \033[0m"
-  wget -O $down_fir  https://raw.githubusercontent.com/AUDIOX-CD/DAP1/master/dap1_fir.dat
+  wget -t 2 -c -O $down_fir  $fir_file_http
   echo "\n \033[41;36;1m ------->down fir pass\033[0m"
 
   if [ ! -f "$down_fir" ]; then #判断文件是否存在
@@ -37,7 +37,7 @@ check_new_ver(){
   ################################################################################################################
   if [ ! -f "$old_File" ]; then #判断文件是否存在
     echo "\n \033[41;36;1m ------->$old_File not exist \033[0m"  #否
-    wget -O $new_File https://gitee.com/audiox/dap1/raw/master/updateVer
+    wget -t 2 -c -O $new_File $updatver_file_http
     down_fir
     return 0
   else
@@ -45,7 +45,7 @@ check_new_ver(){
   fi
   ##############################################################################################################
   #存在,下载并比较
-  wget -O $new_File https://gitee.com/audiox/dap1/raw/master/updateVer
+  wget -t 2 -c -O $new_File $updatver_file_http
 
 
   if [ ! -f "$new_File" ]; then #判断文件是否存在
@@ -92,7 +92,7 @@ main(){
 }
 #-------------------------------------------------------------------------------------------------------------------
 init_app(){
-  sysctl abi.cp15_barrier=2
+
   echo 816000 | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_max_freq
   echo 8 > /proc/irq/6/smp_affinity
   echo 4 > /proc/irq/7/smp_affinity
