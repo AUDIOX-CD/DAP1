@@ -86,7 +86,7 @@ main(){
     if [ $count_s -ge 5 ];then #>=
      count_s=0
      echo "\n \033[41;36;1m ------->check New Ver? \033[0m"  #否
-     if [ $AudioX_update_F = "N"];then
+     if [ $AudioX_update_F = "N" ];then
           check_new_ver
      fi
     fi
