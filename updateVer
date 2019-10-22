@@ -37,6 +37,7 @@ check_new_ver(){
   ################################################################################################################
   if [ ! -f "$old_File" ]; then #判断文件是否存在
     echo "\n \033[41;36;1m ------->$old_File not exist \033[0m"  #否
+    rm -f $new_File
     wget -t 2  -O $new_File $updatver_file_http
     down_fir
     return 0
@@ -45,6 +46,7 @@ check_new_ver(){
   fi
   ##############################################################################################################
   #存在,下载并比较
+  rm -f $new_File
   wget -t 2  -O $new_File $updatver_file_http
 
 
