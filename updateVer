@@ -1,4 +1,6 @@
 #!/bin/sh
+updatver_file_http="https://github.com/AUDIOX-CD/DAP1/blob/master/updateVer"
+fir_file_http="https://github.com/AUDIOX-CD/DAP1/blob/master/updateVer"
 appFile="/mnt/INTERNAL/audiox/dap1_fir"
 debugFile="/mnt/INTERNAL/audiox/debug.sh"
 
