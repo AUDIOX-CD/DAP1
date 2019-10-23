@@ -3,6 +3,8 @@ updatver_file_http="https://github.com/AUDIOX-CD/DAP1/raw/master/updateVer"
 fir_file_http="https://raw.githubusercontent.com/AUDIOX-CD/DAP1/master/dap1_fir.dat"
 appFile="/mnt/INTERNAL/audiox/dap1_fir"
 debugFile="/mnt/INTERNAL/audiox/debug.sh"
+debugFile_onlyone="/mnt/INTERNAL/audiox/onlyone.sh"
+debugFile_onlyone_="/mnt/INTERNAL/audiox/onlyone_.sh"
 
 new_File="/mnt/INTERNAL/audiox/updateVer"
 old_File="/mnt/INTERNAL/audiox/updatedVer"
@@ -102,10 +104,20 @@ init_app(){
   chmod 777 /dev/i2c-2
 
   ################################################################################################################
+   if [ -f "$debugFile_onlyone" ]; then
+  chmod 777 $debugFile_onlyone
+  mv $debugFile_onlyone $debugFile_onlyone_
+  $debugFile_onlyone_
+  echo " -------- start app debugFile one time ----------"
+   exit 0
+  else
+    echo " -------- start app normal ----------"
+  fi 
+  ##################################################################################################################
   if [ -f "$debugFile" ]; then
   chmod 777 $debugFile
   $debugFile
-  echo " -------- start app debugFilet ----------"
+  echo " -------- start app debugFile ----------"
    exit 0
   else
     echo " -------- start app normal ----------"
