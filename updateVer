@@ -77,6 +77,7 @@ main(){
     process=`ps aux | grep dap1_gui | grep -v grep` 
         if [ "$process" = "" ]; then
               echo "process not exsits" 
+              chmod 777 $app_dir/dap1_fir/dap1_gui
               $app_dir/dap1_fir/dap1_gui&
         else
               echo "process exsits" 	
