@@ -1,5 +1,4 @@
 #!/bin/sh
-#AudioX_dap1_QQ_2918043929
 updatver_file_http="https://github.com/AUDIOX-CD/DAP1/raw/master/updateVer"
 fir_file_http="https://raw.githubusercontent.com/AUDIOX-CD/DAP1/master/dap1_fir.dat"
 appFile="/mnt/INTERNAL/audiox/dap1_fir"
