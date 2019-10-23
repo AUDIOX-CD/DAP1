@@ -1,6 +1,7 @@
 #!/bin/sh
 updatver_file_http="https://github.com/AUDIOX-CD/DAP1/raw/master/updateVer"
 fir_file_http="https://raw.githubusercontent.com/AUDIOX-CD/DAP1/master/dap1_fir.dat"
+
 appFile="/mnt/INTERNAL/audiox/dap1_fir"
 debugFile="/mnt/INTERNAL/audiox/debug.sh"
 debugFile_onlyone="/mnt/INTERNAL/audiox/onlyone.sh"
@@ -9,7 +10,9 @@ debugFile_onlyone_="/mnt/INTERNAL/audiox/onlyone_.sh"
 new_File="/mnt/INTERNAL/audiox/updateVer"
 old_File="/mnt/INTERNAL/audiox/updatedVer"
 
+down_fir_tmp="/mnt/INTERNAL/audiox/dap1_fir.tmp"
 down_fir="/mnt/INTERNAL/audiox/dap1_fir.dat"
+
 app_dir="/mnt/INTERNAL/audiox"
 
 
@@ -19,14 +22,15 @@ AudioX_update_F="N"
 #-------------------------------------------------------------------------------------------------------------------
 down_fir(){
   echo "\n \033[41;36;1m ------->start down fir \033[0m"
-  wget -t 2 -c -O $down_fir  $fir_file_http
+  wget -t 2 -c -O $down_fir_tmp  $fir_file_http
   echo "\n \033[41;36;1m ------->down fir pass\033[0m"
 
-  if [ ! -f "$down_fir" ]; then #判断文件是否存在
+  if [ ! -f "$down_fir_tmp" ]; then #判断文件是否存在
     echo "\n \033[41;36;1m ------->$down_fir down fail \033[0m"  #否
     return 0
   else
     echo "\n \033[41;36;1m------->$down_fir down susscess \033[0m"
+    mv $down_fir_tmp  $down_fir
     AudioX_update_F="Y"
   fi
 }
