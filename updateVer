@@ -106,10 +106,9 @@ init_app(){
   ################################################################################################################
    if [ -f "$debugFile_onlyone" ]; then
   chmod 777 $debugFile_onlyone
-  mv $debugFile_onlyone $debugFile_onlyone_
-  $debugFile_onlyone_
+  $debugFile_onlyone
   echo " -------- start app debugFile one time ----------"
-   exit 0
+   mv $debugFile_onlyone $debugFile_onlyone_
   else
     echo " -------- start app normal ----------"
   fi 
