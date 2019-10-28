@@ -22,7 +22,7 @@ AudioX_update_F="N"
 #-------------------------------------------------------------------------------------------------------------------
 down_fir(){
   echo "\n \033[41;36;1m ------->start down fir \033[0m"
-  wget -t 2 -c -O $down_fir_tmp  $fir_file_http
+  wget -t 2  -O $down_fir_tmp  $fir_file_http
   echo "\n \033[41;36;1m ------->down fir pass\033[0m"
 
   if [ ! -f "$down_fir_tmp" ]; then #判断文件是否存在
@@ -143,4 +143,5 @@ init_app
 main
 #2019.10.23
 #2019.10.27 change conver and r move 4pix
+#2019.10.28 del -c 
 #AudioX_dap1_QQ_2918043929
