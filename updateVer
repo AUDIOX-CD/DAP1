@@ -73,19 +73,6 @@ check_new_ver(){
   fi
   ####################################################################################################################
 }
-check_new_fir(){
-   cout_s=0;
-   while(1){
-   count_s=$(($count_s+1)) 
-    if [ $count_s -ge 5 ];then #>=
-        count_s=0
-        echo "\n \033[41;36;1m ------->check New Ver? \033[0m"  #否
-        if [ $AudioX_update_F = "N" ];then
-            check_new_ver
-        fi
-    fi
-   }
-}
 #-------------------------------------------------------------------------------------------------------------------
 main(){
   count_s=0
@@ -99,11 +86,17 @@ main(){
         else
               echo "process exsits" 	
         fi
-
+    sleep 1 
 
     count_s=$(($count_s+1)) 
     echo $count_s
-    sleep 5     
+    if [ $count_s -ge 5 ];then #>=
+     count_s=0
+     echo "\n \033[41;36;1m ------->check New Ver? \033[0m"  #否
+     if [ $AudioX_update_F = "N" ];then
+          check_new_ver
+     fi
+    fi
   done
 }
 #-------------------------------------------------------------------------------------------------------------------
@@ -147,9 +140,8 @@ init_app(){
 #-------------------------------------------------------------------------------------------------------------------
 
 init_app
-main&
-check_new_fir
+main
 #2019.10.23
 #2019.10.27 change conver and r move 4pix
-#2019.10.28 del -c 。。。
+#2019.10.28 del -c 
 #AudioX_dap1_QQ_2918043929
